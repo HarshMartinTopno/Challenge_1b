@@ -29,7 +29,7 @@ RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTr
 # This is done last because this code changes more frequently than dependencies.
 COPY main.py .
 COPY ranker.py .
-COPY app/ ./app/
+COPY app/ ./app_app/
 
 # Define the default command to execute when the container starts.
 # This runs the main script with default arguments, pointing to the directories
