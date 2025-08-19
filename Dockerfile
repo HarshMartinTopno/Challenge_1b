@@ -1,6 +1,6 @@
 # Stage 1: Define the base environment
 # Use a specific, lightweight Python base image compatible with the amd64 architecture required for judging.
-FROM --platform=linux/amd64 python:3.10-slim-buster
+FROM --platform=linux/amd64 python:3.10
 
 # Set the working directory inside the container to keep things organized.
 WORKDIR /app
@@ -9,11 +9,11 @@ WORKDIR /app
 # This way, dependencies are only re-installed if requirements.txt changes.
 COPY requirements.txt .
 
-# Install system dependencies that might be required by Python packages (e.g., PyMuPDF).
-# Clean up afterward to keep the final image size small.
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+# # Install system dependencies that might be required by Python packages (e.g., PyMuPDF).
+# # Clean up afterward to keep the final image size small.
+# RUN apt-get update && apt-get install -y --no-install-recommends \
+#     build-essential \
+#     && rm -rf /var/lib/apt/lists/*
 
 # Install all Python dependencies from the requirements file.
 # --no-cache-dir reduces the image size by not storing the pip cache.
@@ -29,7 +29,7 @@ RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTr
 # This is done last because this code changes more frequently than dependencies.
 COPY main.py .
 COPY ranker.py .
-COPY app/ ./app_app/
+COPY app_app .
 
 # Define the default command to execute when the container starts.
 # This runs the main script with default arguments, pointing to the directories
